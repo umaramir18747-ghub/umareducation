@@ -1,0 +1,384 @@
+/* ================== components.css ================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  background: #f4f7fc;
+  color: #1e293b;
+}
+
+/* ========== HEADER ========== */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+  z-index: 1000;
+  border-bottom: 1px solid #e2eaf2;
+}
+
+.top-bar-left, .top-bar-right { 
+  display: flex; 
+  align-items: center; 
+  gap: 16px; 
+}
+
+.header-icons { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}
+
+.icon-btn {
+  background: #f8fafd;
+  border: 1px solid #e2e8f0;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #1e4f8a;
+  font-size: 20px;
+  transition: all .2s;
+}
+
+.icon-btn:hover { 
+  background: #1e4f8a; 
+  color: white; 
+  border-color: #1e4f8a; 
+}
+
+.school-logo { 
+  width: 42px; 
+  height: 42px; 
+  overflow: hidden; 
+}
+
+.school-logo img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; 
+}
+
+.school-name { 
+  font-size: 21px; 
+  font-weight: 700; 
+  color: #1e293b; 
+  letter-spacing: -.2px; 
+}
+
+.datetime-display {
+  background: #f8fafd;
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14.5px;
+}
+
+.date-box, .time-box { 
+  display: flex; 
+  align-items: center; 
+  gap: 9px; 
+}
+
+.date-box i, .time-box i { 
+  color: #1e4f8a; 
+  font-size: 16px; 
+}
+
+.date-text, .time-text { 
+  font-weight: 600; 
+  color: #334155; 
+}
+
+.time-text { 
+  font-family: 'Courier New', monospace; 
+  letter-spacing: 1px; 
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 62px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+  width: 200px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all .2s;
+  z-index: 1100;
+  border: 1px solid #e2e8f0;
+}
+
+.dropdown-menu.active { 
+  opacity: 1; 
+  visibility: visible; 
+  transform: translateY(0); 
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  color: #334155;
+  text-decoration: none;
+  font-size: 14.8px;
+  transition: all .2s;
+}
+
+.dropdown-item:hover { 
+  background: #ecf3fa; 
+  color: #1e4f8a; 
+}
+
+/* ========== SIDEBAR ========== */
+.app-wrapper { 
+  display: flex; 
+  margin-top: 70px; 
+  min-height: calc(100vh - 70px); 
+}
+
+.side-nav {
+  width: 260px;
+  background: white;
+  border-right: 1px solid #e2eaf2;
+  padding: 20px 0;
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0,0,0,.02);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.side-nav.hidden { 
+  transform: translateX(-100%); 
+  width: 0; 
+  overflow: hidden; 
+}
+
+.nav-menu { 
+  list-style: none; 
+  flex: 1; 
+}
+
+.nav-divider { 
+  height: 2px; 
+  background: #3b82f6; 
+  margin: 16px 20px; 
+}
+
+.section-header { 
+  padding: 0 22px 8px; 
+  font-size: 12.5px; 
+  font-weight: 700; 
+  color: #64748b; 
+  letter-spacing: .6px; 
+  text-transform: uppercase; 
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 22px;
+  color: #1e293b;
+  font-size: 14.8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all .2s;
+  border-left: 4px solid transparent;
+}
+
+.nav-link:hover, 
+.nav-link.active, 
+.dashboard-link { 
+  background: #ecf3fa; 
+  color: #1e293b; 
+  border-left-color: #1e4f8a; 
+}
+
+.nav-link i { 
+  width: 22px; 
+  color: #577190; 
+}
+
+/* Sidebar Dropdowns */
+.dropdown-nav { 
+  position: relative; 
+}
+
+.dropdown-toggle { 
+  justify-content: space-between; 
+  cursor: pointer; 
+  width: 100%; 
+}
+
+.dropdown-arrow {
+  font-size: 12px;
+  transition: transform .3s;
+  margin-left: auto;
+  color: #577190;
+}
+
+.dropdown-nav.active .dropdown-arrow { 
+  transform: rotate(180deg); 
+}
+
+.dropdown-menu-side {
+  list-style: none;
+  background: #f8fafd;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease-out;
+  margin-left: 24px;
+  border-left: 2px solid #d9e2ec;
+}
+
+.dropdown-nav.active .dropdown-menu-side {
+  max-height: 300px;
+  transition: max-height .5s ease-in;
+}
+
+.dropdown-item-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  color: #2c3e50;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-item-side:hover { 
+  background: #e7efff; 
+  color: #0c4a6e; 
+}
+
+.dropdown-item-side i { 
+  width: 20px; 
+  font-size: 14px; 
+  color: #577190; 
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  padding: 22px 24px;
+  border-top: 1px solid #e2eaf2;
+  margin-top: auto;
+}
+
+.developed-by { 
+  font-size: 13.2px; 
+  color: #64748b; 
+  line-height: 1.6; 
+}
+
+.developed-by .label { 
+  display: block; 
+  text-align: left; 
+  font-weight: 500; 
+}
+
+.developed-by .name { 
+  display: block; 
+  text-align: center; 
+  font-weight: 600; 
+  color: #1e4f8a; 
+  margin-top: 5px; 
+}
+
+/* ========== MAIN CONTENT ========== */
+.main-panel { 
+  flex: 1; 
+  padding: 40px 32px; 
+  background: #f5f9ff; 
+  overflow-y: auto; 
+}
+
+.top-row { 
+  display: flex; 
+  gap: 28px; 
+  margin-bottom: 40px; 
+  align-items: stretch; 
+}
+
+.welcome-section {
+  flex: 1;
+  background: white;
+  padding: 36px;
+  border: 1px solid #e2eaf2;
+}
+
+.welcome-title { 
+  font-size: 27px; 
+  font-weight: 700; 
+  color: #1e293b; 
+  margin-bottom: 16px; 
+}
+
+.welcome-text { 
+  font-size: 15.8px; 
+  color: #475569; 
+  line-height: 1.75; 
+  margin-bottom: 12px; 
+}
+
+.profile-sidebar {
+  width: 260px;
+  background: white;
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid #e2eaf2;
+}
+
+.passport-frame { 
+  width: 158px; 
+  height: 198px; 
+  margin: 0 auto 18px; 
+  border: 4px solid #1e4f8a; 
+  overflow: hidden; 
+}
+
+.passport-frame img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+.profile-name { 
+  font-size: 21px; 
+  font-weight: 700; 
+  color: #1e293b; 
+}
+
+.profile-role { 
+  font-size: 14.5px; 
+  color: #64748b; 
+  margin-top: 4px; 
+}
+
+/* Straight corners for all elements */
+button, .icon-btn, .dropdown-menu, .side-nav, .welcome-section, .profile-sidebar, .passport-frame {
+  border-radius: 0 !important;
+}

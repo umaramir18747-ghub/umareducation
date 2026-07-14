@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EHS – Admission & Fee Management Dashboard</title>
+  <link rel="icon" href="logo.jpeg" type="image/jpeg">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="components.css">
+  <link rel="stylesheet" href="components-responsive.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <!-- Header will be loaded here -->
+  <div id="header-placeholder"></div>
+
+  <div class="app-wrapper" id="appWrapper">
+    
+    <!-- Sidebar will be loaded here -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-panel">
+      <!-- Watermark Logo -->
+      <div class="watermark" aria-hidden="true"></div>
+
+      <!-- Welcome Banner + Profile Photo, in one row -->
+      <div class="welcome-photo-row">
+        <!-- Welcome Banner (message only) -->
+        <section class="welcome-banner">
+          <h1 class="welcome-title">Welcome to Admission & Fee Management Dashboard</h1>
+          <p class="welcome-text">Dear Muhammad Umar, streamline your institution's admission workflows and financial operations from a single command center.</p>
+        </section>
+
+        <!-- Profile Picture Frame -->
+        <section class="profile-card">
+          <div class="passport-frame"><img src="profile.jpg" alt="Muhammad Umar"></div>
+          <div class="profile-name">Muhammad Umar</div>
+          <div class="profile-role">Additional Registrar</div>
+        </section>
+      </div>
+
+      <!-- Admission Details -->
+      <div class="dashboard-section">
+        <div class="section-title"><i class="fas fa-user-graduate"></i> Admission Details</div>
+        <div class="cards-grid">
+          <div class="stat-card">
+            <div class="card-icon icon-students"><i class="fas fa-users"></i></div>
+            <div class="card-info"><div class="card-label">Total Students</div><div class="card-value">150</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-teachers"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="card-info"><div class="card-label">Total Teachers</div><div class="card-value">12</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-classes"><i class="fas fa-school"></i></div>
+            <div class="card-info"><div class="card-label">Total Classes</div><div class="card-value">6</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-active-s"><i class="fas fa-user-check"></i></div>
+            <div class="card-info"><div class="card-label">Active Students</div><div class="card-value">142</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-active-t"><i class="fas fa-user-tie"></i></div>
+            <div class="card-info"><div class="card-label">Active Teachers</div><div class="card-value">10</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-active-c"><i class="fas fa-door-open"></i></div>
+            <div class="card-info"><div class="card-label">Active Classes</div><div class="card-value">6</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fee Details -->
+      <div class="dashboard-section">
+        <div class="section-title"><i class="fas fa-money-bill-wave"></i> Fee Details</div>
+        <div class="cards-grid">
+          <div class="stat-card">
+            <div class="card-icon icon-paid"><i class="fas fa-check-circle"></i></div>
+            <div class="card-info"><div class="card-label">Paid Payments</div><div class="card-value">50</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-unpaid"><i class="fas fa-times-circle"></i></div>
+            <div class="card-info"><div class="card-label">Unpaid Payments</div><div class="card-value">92</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-due"><i class="fas fa-exclamation-circle"></i></div>
+            <div class="card-info"><div class="card-label">Due Payments</div><div class="card-value">20</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-received"><i class="fas fa-hand-holding-usd"></i></div>
+            <div class="card-info"><div class="card-label">Amount Received</div><div class="card-value">PKR 50,000</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-remaining"><i class="fas fa-hourglass-half"></i></div>
+            <div class="card-info"><div class="card-label">Amount Remaining</div><div class="card-value">PKR 92,000</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="card-icon icon-total-amt"><i class="fas fa-wallet"></i></div>
+            <div class="card-info"><div class="card-label">Total Amount</div><div class="card-value">PKR 142,000</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Help Section -->
+      <section class="help-section">
+        <div class="section-title"><i class="fas fa-circle-info"></i> Help & Guidance</div>
+        <p class="help-text">Effortlessly <strong>enroll students & teachers</strong>, build classes, assign fee structures, track payments, and generate detailed reports — all with zero friction.</p>
+        <p class="help-text">Use the admission panel to onboard new learners and educators. The fee section gives you real-time insight into dues, collections, and outstanding balances. Complete transparency, total control.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="components.js"></script>
+
+  <script>
+    // Load Header and Sidebar
+    function loadComponents() {
+      // Load Header
+      fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-placeholder').innerHTML = data;
+        })
+        .catch(err => console.error('Error loading header:', err));
+
+      // Load Sidebar
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar-placeholder').innerHTML = data;
+        })
+        .catch(err => console.error('Error loading sidebar:', err));
+    }
+
+    // Initialize everything after components are loaded
+    window.onload = function() {
+      loadComponents();
+      
+      // Give time for HTML to load then initialize JS
+      setTimeout(() => {
+        if (typeof window.initHeaderAndSidebar === 'function') {
+          window.initHeaderAndSidebar();
+        }
+      }, 400);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>EHS – Class Management | Professional Details Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="components.css">
+  <link rel="stylesheet" href="class-details.css">
+  <link rel="stylesheet" href="components-responsive.css">
+</head>
+<body>
+    <!-- Header will be loaded here -->
+  <div id="header-placeholder"></div>
+
+  <div class="app-wrapper" id="appWrapper">
+    
+    <!-- Sidebar will be loaded here -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+<div class="app-container">
+  <main class="main-panel">
+    <!-- identical header design from student-details -->
+    <div class="page-header">
+      <h1><i class="fas fa-chalkboard-user"></i> Class Directory & Records</h1>
+      <p>Manage class sessions, monitor student enrollment, and view detailed class profiles.</p>
+    </div>
+    <div class="data-card">
+      <div class="card-header">
+        <h2><i class="fas fa-table-list"></i> All Classes <span class="badge-count" id="classCountBadge">0</span></h2>
+        <i class="fas fa-search" style="color:#94a3b8; font-size: 18px;"></i>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Class Name</th>
+              <th>Class ID</th>
+              <th>Session</th>
+              <th>Grade</th>
+              <th>Section</th>
+              <th>Students</th>
+              <th>Status</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="classTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL overlay for class detail view -->
+<div id="classModalOverlay" class="modal-overlay">
+  <div class="class-modal-container">
+    <div class="modal-header-custom">
+      <h2 id="modalClassTitle"><i class="fas fa-id-card"></i> Class Profile</h2>
+      <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="classModalDynamicContent"></div>
+    <div class="modal-footer-custom">
+      <button id="modalFooterCloseBtn" style="background:#f1f5f9; border:1px solid #cbd5e1; padding: 8px 20px; font-weight:600; cursor:pointer;"><i class="fas fa-times"></i> Close</button>
+    </div>
+  </div>
+</div>
+<script src="components.js"></script>
+<script>
+    // Load Header and Sidebar
+    function loadComponents() {
+      fetch('header.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('header-placeholder').innerHTML = data)
+        .catch(err => console.error('Error loading header:', err));
+
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('sidebar-placeholder').innerHTML = data)
+        .catch(err => console.error('Error loading sidebar:', err));
+    }
+
+    window.onload = function() {
+      loadComponents();
+      setTimeout(() => {
+        if (typeof window.initHeaderAndSidebar === 'function') {
+          window.initHeaderAndSidebar();
+        }
+      }, 400);
+    };
+
+  let classes = [
+    { name: "Class A - Stars", id: "CLS-10044", session: "2025-2026", grade: "8th", section: "A", status: "Active", 
+      students: [
+        { photo: "https://randomuser.me/api/portraits/men/32.jpg", name: "Ahmed Khan", id: "STD-78421", fatherName: "Rashid Khan", phone: "0300-111222" },
+        { photo: null, name: "Fatima Ali", id: "STD-78422", fatherName: "Ali Akbar", phone: "0301-333444" },
+        { photo: "https://randomuser.me/api/portraits/women/68.jpg", name: "Bilal Ahmed", id: "STD-78423", fatherName: "Ahmed Raza", phone: "0302-555666" }
+      ] },
+    { name: "Class B - Scholars", id: "CLS-10045", session: "2025-2026", grade: "9th", section: "B", status: "Active",
+      students: [
+        { photo: "https://randomuser.me/api/portraits/women/44.jpg", name: "Zainab Hassan", id: "STD-78501", fatherName: "Hassan Mehmood", phone: "0311-223344" },
+        { photo: null, name: "Umar Farooq", id: "STD-78502", fatherName: "Farooq Ahmed", phone: "0322-334455" },
+        { photo: "https://randomuser.me/api/portraits/men/91.jpg", name: "Ayesha Noor", id: "STD-78503", fatherName: "Noor Alam", phone: "0333-445566" },
+        { photo: "https://randomuser.me/api/portraits/men/45.jpg", name: "Hamza Ali", id: "STD-78504", fatherName: "Ali Raza", phone: "0344-556677" }
+      ] },
+    { name: "Class C - Leaders", id: "CLS-10046", session: "2025-2026", grade: "10th", section: "C", status: "Graduated",
+      students: [
+        { photo: null, name: "Hassan Raza", id: "STD-78611", fatherName: "Raza Iqbal", phone: "0355-667788" },
+        { photo: "https://randomuser.me/api/portraits/women/33.jpg", name: "Maryam Siddiqui", id: "STD-78612", fatherName: "Siddiqui Ahmed", phone: "0366-778899" },
+        { photo: null, name: "Ali Rehman", id: "STD-78613", fatherName: "Rehman Malik", phone: "0377-889900" }
+      ] },
+    { name: "Class D - Achievers", id: "CLS-10047", session: "2025-2026", grade: "8th", section: "A", status: "Graduated",
+      students: [
+        { photo: "https://randomuser.me/api/portraits/women/90.jpg", name: "Sana Malik", id: "STD-78721", fatherName: "Malik Aslam", phone: "0388-990011" },
+        { photo: null, name: "Omar Khalid", id: "STD-78722", fatherName: "Khalid Mehmood", phone: "0399-001122" },
+        { photo: "https://randomuser.me/api/portraits/men/52.jpg", name: "Hira Khan", id: "STD-78723", fatherName: "Khan Wali", phone: "0300-112233" },
+        { photo: "https://randomuser.me/api/portraits/women/12.jpg", name: "Iman Zafar", id: "STD-78724", fatherName: "Zafar Iqbal", phone: "0312-334455" },
+        { photo: null, name: "Saad Akhtar", id: "STD-78725", fatherName: "Akhtar Hussain", phone: "0323-445566" }
+      ] },
+    { name: "Class E - Innovators", id: "CLS-10048", session: "2025-2026", grade: "7th", section: "B", status: "Active",
+      students: [
+        { photo: null, name: "Rayan Ahmed", id: "STD-78801", fatherName: "Ahmed Tariq", phone: "0334-556677" },
+        { photo: null, name: "Eman Tariq", id: "STD-78802", fatherName: "Tariq Mehmood", phone: "0345-667788" },
+        { photo: "https://randomuser.me/api/portraits/men/19.jpg", name: "Daniyal Shah", id: "STD-78803", fatherName: "Shahid Jamil", phone: "0356-778899" }
+      ] }
+  ];
+
+  function showToast(msg) {
+    let t = document.createElement('div');
+    t.className = 'toast-msg';
+    t.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2200);
+  }
+
+  function updateClassCount() {
+    document.getElementById('classCountBadge').innerText = classes.length;
+  }
+
+  function renderClassTable() {
+    const tbody = document.getElementById('classTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = classes.map(c => {
+      const studentCount = c.students?.length || 0;
+      const statusClass = c.status === 'Active' ? 'active-select' : 'graduated-select';
+      return `
+        <tr>
+          <td><strong>${escapeHtml(c.name)}</strong></td>
+          <td>${escapeHtml(c.id)}</td>
+          <td>${escapeHtml(c.session)}</td>
+          <td>${escapeHtml(c.grade)}</td>
+          <td>${escapeHtml(c.section)}</td>
+          <td><span class="student-count-badge"><i class="fas fa-user-friends"></i> ${studentCount} ${studentCount === 1 ? 'Student' : 'Students'}</span></td>
+          <td>
+            <select class="status-select ${statusClass}" data-classid="${c.id}" onchange="updateClassStatus('${c.id}', this.value)">
+              <option value="Active" ${c.status === 'Active' ? 'selected' : ''}>Active</option>
+              <option value="Graduated" ${c.status === 'Graduated' ? 'selected' : ''}>Graduated</option>
+            </select>
+          </td>
+          <td style="text-align: right">
+            <div class="action-icons">
+              <i class="fas fa-eye view-icon" data-classid="${c.id}" title="View Details"></i>
+              <i class="fas fa-edit edit-icon" data-classid="${c.id}" title="Edit Class"></i>
+              <i class="fas fa-trash-alt delete-icon" data-classid="${c.id}" title="Delete Class"></i>
+              <i class="fas fa-arrow-up promote-icon" data-classid="${c.id}" title="Promote (demo only)"></i>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // Attach event listeners
+    document.querySelectorAll('.view-icon').forEach(icon => {
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openClassDetailPanel(icon.dataset.classid);
+      });
+    });
+    document.querySelectorAll('.edit-icon').forEach(icon => {
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        editClassById(icon.dataset.classid);
+      });
+    });
+    document.querySelectorAll('.delete-icon').forEach(icon => {
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteClassById(icon.dataset.classid);
+      });
+    });
+    document.querySelectorAll('.promote-icon').forEach(icon => {
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showToast(`✨ Promote action (placeholder icon only)`);
+      });
+    });
+  }
+
+  window.updateClassStatus = (classId, newStatus) => {
+    const cls = classes.find(c => c.id === classId);
+    if (cls) {
+      cls.status = newStatus;
+      renderClassTable();
+      showToast(`✅ Class status updated to ${newStatus}`);
+    }
+  };
+
+  function editClassById(classId) {
+    const cls = classes.find(c => c.id === classId);
+    if (!cls) return;
+    let newName = prompt("Edit Class Name:", cls.name);
+    if (newName && newName.trim()) cls.name = newName.trim();
+    let newGrade = prompt("Edit Grade:", cls.grade);
+    if (newGrade && newGrade.trim()) cls.grade = newGrade.trim();
+    let newSection = prompt("Edit Section:", cls.section);
+    if (newSection && newSection.trim()) cls.section = newSection.trim();
+    let newSession = prompt("Edit Session:", cls.session);
+    if (newSession && newSession.trim()) cls.session = newSession.trim();
+    renderClassTable();
+    showToast(`✏️ Class ${cls.id} updated`);
+  }
+
+  function deleteClassById(classId) {
+    if (confirm(`⚠️ Delete class ${classId}? This action cannot be undone.`)) {
+      classes = classes.filter(c => c.id !== classId);
+      renderClassTable();
+      updateClassCount();
+      showToast(`🗑️ Class ${classId} deleted`);
+    }
+  }
+
+  function escapeHtml(str) { 
+    if (!str) return ''; 
+    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); 
+  }
+
+  function openClassDetailPanel(classId) {
+    const cls = classes.find(c => c.id === classId);
+    if (!cls) return;
+    const studentsList = cls.students || [];
+    const studentsHtml = studentsList.map(s => {
+      const photoHtml = s.photo ? `<img src="${s.photo}" class="student-img-class" alt="student">` : `<div class="placeholder-icon-class"><i class="fas fa-user-graduate"></i></div>`;
+      return `
+        <div class="student-card-class">
+          <div class="photo-frame-class">${photoHtml}</div>
+          <div class="student-name-class">${escapeHtml(s.name)}</div>
+          <div class="student-id-class">${escapeHtml(s.id)}</div>
+          <div style="font-size:12px; color:#475569; margin-top:6px;">${escapeHtml(s.fatherName || '—')}</div>
+          <div style="font-size:11px; color:#64748b;">${escapeHtml(s.phone || '')}</div>
+        </div>
+      `;
+    }).join('');
+
+    const statusBadgeClass = cls.status === 'Active' ? 'status-active' : 'status-graduated';
+    const modalContent = `
+      <div style="padding: 0;">
+        <div class="info-summary-grid">
+          <div class="info-summary-item"><strong><i class="fas fa-tag"></i> Class ID:</strong> <span>${escapeHtml(cls.id)}</span></div>
+          <div class="info-summary-item"><strong><i class="fas fa-calendar"></i> Session:</strong> <span>${escapeHtml(cls.session)}</span></div>
+          <div class="info-summary-item"><strong><i class="fas fa-chart-line"></i> Grade:</strong> <span>${escapeHtml(cls.grade)}</span></div>
+          <div class="info-summary-item"><strong><i class="fas fa-layer-group"></i> Section:</strong> <span>${escapeHtml(cls.section)}</span></div>
+          <div class="info-summary-item"><strong><i class="fas fa-users"></i> Total Students:</strong> <span><strong style="color:#2563eb;">${studentsList.length}</strong> enrolled</span></div>
+          <div class="info-summary-item"><strong><i class="fas fa-flag-checkered"></i> Status:</strong> <span><span class="status-badge ${statusBadgeClass}">${cls.status}</span></span></div>
+        </div>
+        <div style="border-top: 1px solid #eef2f8; padding: 20px 28px 8px 28px;">
+          <h4 style="display:flex; align-items:center; gap:10px; font-size:16px; font-weight:700; color:#1e293b;"><i class="fas fa-id-card"></i> Students — Official Photo Frame</h4>
+        </div>
+        <div class="student-grid-class">
+          ${studentsList.length ? studentsHtml : '<div style="grid-column:1/-1; text-align:center; padding:48px; color:#64748b;"><i class="fas fa-user-slash"></i> No students enrolled in this class</div>'}
+        </div>
+      </div>
+    `;
+    document.getElementById('classModalDynamicContent').innerHTML = modalContent;
+    document.getElementById('modalClassTitle').innerHTML = `<i class="fas fa-chalkboard-user"></i> ${escapeHtml(cls.name)}`;
+    document.getElementById('classModalOverlay').classList.add('active');
+  }
+
+  function closeClassModal() {
+    document.getElementById('classModalOverlay').classList.remove('active');
+  }
+
+  document.getElementById('closeModalBtn').addEventListener('click', closeClassModal);
+  document.getElementById('modalFooterCloseBtn').addEventListener('click', closeClassModal);
+  document.getElementById('classModalOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('classModalOverlay')) closeClassModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('classModalOverlay').classList.contains('active')) closeClassModal();
+  });
+
+  updateClassCount();
+  renderClassTable();
+</script>
+</body>
+</html>

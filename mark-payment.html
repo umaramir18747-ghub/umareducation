@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>EHS – Mark Payment</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="components.css">
+  <link rel="stylesheet" href="mark-payment.css">
+  <link rel="stylesheet" href="components-responsive.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <div class="app-wrapper" id="appWrapper">
+    <div id="sidebar-placeholder"></div>
+    <div class="app-container">
+      <main class="main-panel">
+        <div class="page-header">
+          <h1><i class="fas fa-money-bill-wave"></i> Mark Payment</h1>
+          <p>Mark student fees as paid. Paid records will be moved to View Details.</p>
+        </div>
+        <div class="data-card">
+          <div class="card-header">
+            <h2><i class="fas fa-users"></i> Pending Fee Records <span class="badge-count" id="feeCountBadge">0</span></h2>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Reg No.</th>
+                  <th>Student Name</th>
+                  <th>Class Name</th>
+                  <th>Fee Type</th>
+                  <th>Fee Month</th>
+                  <th>Due Date</th>
+                  <th>Amount (PKR)</th>
+                  <th style="text-align:right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="feeTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+<script src="components.js"></script>
+<script>
+  function loadComponents() {
+    fetch('header.html').then(r => r.text()).then(data => document.getElementById('header-placeholder').innerHTML = data);
+    fetch('sidebar.html').then(r => r.text()).then(data => document.getElementById('sidebar-placeholder').innerHTML = data);
+  }
+
+  window.onload = function() {
+    loadComponents();
+    setTimeout(() => { if (typeof window.initHeaderAndSidebar === 'function') window.initHeaderAndSidebar(); }, 400);
+  };
+
+  function loadFeeRecords() {
+    const stored = localStorage.getItem('ehsFeeRecords');
+    if (stored) return JSON.parse(stored);
+    const defaults = [
+      { id: "FEE-001", regNo: "REG-1001", studentName: "Ahmed Raza", fatherName: "Muhammad Raza", className: "Class A", feeType: "Tuition Fee", feeMonth: "March 2026", dueDate: "2026-03-20", amount: 12500, status: "Unpaid", paidDateTime: null, receiptNo: null, photoUrl: "https://randomuser.me/api/portraits/men/32.jpg" },
+      { id: "FEE-002", regNo: "REG-1002", studentName: "Fatima Zafar", fatherName: "Zafar Iqbal", className: "Class B", feeType: "Tuition Fee", feeMonth: "March 2026", dueDate: "2026-03-20", amount: 13500, status: "Unpaid", paidDateTime: null, receiptNo: null, photoUrl: "https://randomuser.me/api/portraits/women/68.jpg" },
+      { id: "FEE-003", regNo: "REG-1003", studentName: "Hassan Tariq", fatherName: "Tariq Mehmood", className: "Class C", feeType: "Admission Fee", feeMonth: "March 2026", dueDate: "2026-03-25", amount: 8500, status: "Unpaid", paidDateTime: null, receiptNo: null, photoUrl: "https://randomuser.me/api/portraits/men/91.jpg" },
+      { id: "FEE-004", regNo: "REG-1004", studentName: "Mariam Siddiqui", fatherName: "Rashid Siddiqui", className: "Class A", feeType: "Transport Fee", feeMonth: "March 2026", dueDate: "2026-03-18", amount: 5500, status: "Unpaid", paidDateTime: null, receiptNo: null, photoUrl: "https://randomuser.me/api/portraits/women/44.jpg" },
+      { id: "FEE-005", regNo: "REG-1005", studentName: "Omar Khalid", fatherName: "Khalid Mehmood", className: "Class B", feeType: "Library Fee", feeMonth: "March 2026", dueDate: "2026-03-22", amount: 3200, status: "Unpaid", paidDateTime: null, receiptNo: null, photoUrl: null },
+      { id: "FEE-006", regNo: "REG-1006", studentName: "Zainab Ahmed", fatherName: "Ahmed Ali", className: "Class A", feeType: "Sports Fee", feeMonth: "March 2026", dueDate: "2026-03-28", amount: 4200, status: "Unpaid", paidDateTime: null, receiptNo: null, photoUrl: "https://randomuser.me/api/portraits/women/33.jpg" }
+    ];
+    localStorage.setItem('ehsFeeRecords', JSON.stringify(defaults));
+    return defaults;
+  }
+
+  function saveFeeRecords(records) {
+    localStorage.setItem('ehsFeeRecords', JSON.stringify(records));
+  }
+
+  let feeRecords = loadFeeRecords();
+
+  function generateReceiptNumber() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const existing = feeRecords.map(r => r.receiptNo).filter(Boolean);
+    let result = "";
+    do {
+      result = "";
+      const length = Math.floor(Math.random() * 3) + 8; // 8–10 chars
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+    } while (existing.includes(result));
+    return result;
+  }
+
+  function formatDueDate(dateStr) {
+    if (!dateStr) return '—';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-PK', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function markAsPaid(recordId) {
+    const record = feeRecords.find(r => r.id === recordId);
+    if (!record || record.status === "Paid") return;
+    record.status = "Paid";
+    record.paidDateTime = new Date().toLocaleString('en-PK', { hour12: true });
+    record.receiptNo = generateReceiptNumber();
+    saveFeeRecords(feeRecords);
+    showToast(`✅ Payment marked as Paid! Receipt: ${record.receiptNo}`);
+    renderFeeTable();
+  }
+
+  function renderFeeTable() {
+    const tbody = document.getElementById('feeTableBody');
+    const pendingRecords = feeRecords.filter(r => r.status === "Unpaid");
+    tbody.innerHTML = pendingRecords.map(record => {
+      let photoHtml = record.photoUrl
+        ? `<img src="${record.photoUrl}" class="photo-thumb" alt="student">`
+        : `<div class="photo-placeholder"><i class="fas fa-user-graduate"></i></div>`;
+      return `
+        <tr>
+          <td>${photoHtml}</td>
+          <td><strong>${record.regNo}</strong></td>
+          <td>${record.studentName}</td>
+          <td>${record.className}</td>
+          <td>${record.feeType}</td>
+          <td>${record.feeMonth}</td>
+          <td>${formatDueDate(record.dueDate)}</td>
+          <td><strong>PKR ${record.amount.toLocaleString()}</strong></td>
+          <td style="text-align:right">
+            <div class="action-icons">
+              <select class="payment-select unpaid-style" onchange="if(this.value==='Paid'){markAsPaid('${record.id}');}this.value='Unpaid';">
+                <option value="Unpaid" selected>Unpaid</option>
+                <option value="Paid">Mark Paid</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+    document.getElementById('feeCountBadge').textContent = pendingRecords.length;
+  }
+
+  function showToast(msg) {
+    let t = document.createElement('div');
+    t.className = 'toast-msg';
+    t.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2800);
+  }
+
+  renderFeeTable();
+</script>
+</body>
+</html>

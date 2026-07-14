@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>EHS – Student Management | Professional Details Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="components.css">
+  <link rel="stylesheet" href="student-details.css">
+  <link rel="stylesheet" href="components-responsive.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <div class="app-wrapper" id="appWrapper">
+    <div id="sidebar-placeholder"></div>
+
+    <div class="app-container">
+      <main class="main-panel">
+        <div class="page-header">
+          <h1><i class="fas fa-graduation-cap"></i> Student Directory & Records</h1>
+          <p>Manage enrollments, track academic status, and view detailed student profiles.</p>
+        </div>
+        <div class="data-card">
+          <div class="card-header">
+            <h2><i class="fas fa-table-list"></i> Enrolled Students <span class="badge-count" id="studentCountBadge">0</span></h2>
+            <i class="fas fa-search" style="color:#94a3b8; font-size: 18px;"></i>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Reg No.</th>
+                  <th>Student Name</th>
+                  <th>Father Name</th>
+                  <th>Class</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="studentSlidePanel" class="student-overlay">
+    <div class="student-detail-panel">
+      <div class="panel-header">
+        <h2><i class="fas fa-id-card"></i> Student Profile</h2>
+        <button class="close-panel-btn" id="closeSlideBtn"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="dynamicPanelContent"></div>
+    </div>
+  </div>
+
+<script src="components.js"></script>
+<script>
+  function loadComponents() {
+    fetch('header.html').then(r => r.text()).then(data => document.getElementById('header-placeholder').innerHTML = data);
+    fetch('sidebar.html').then(r => r.text()).then(data => document.getElementById('sidebar-placeholder').innerHTML = data);
+  }
+
+  window.onload = function() {
+    loadComponents();
+    setTimeout(() => {
+      if (typeof window.initHeaderAndSidebar === 'function') window.initHeaderAndSidebar();
+    }, 400);
+  };
+
+  let students = [ /* ... same data as before ... */ 
+    { regNo: "REG-1001", studentName: "Ahmed Raza", fatherName: "Muhammad Raza", className: "Class A - Stars", phoneNumber: "0301-1234567", status: "Active", email: "ahmed.raza@ehs.edu", cnic: "42101-1234567-1", address: "House #12, Street 5, Faisalabad", gender: "Male", dob: "2010-05-15", nationality: "Pakistani", religion: "Islam", joiningDate: "2023-08-20", guardianName: "Muhammad Raza", guardianPhone: "0301-9876543", guardianCnic: "42101-1234567-5", guardianOccupation: "Businessman", photoUrl: null, classId: "CLS-10044", session: "2025-2026", grade: "8th", section: "A" },
+    { regNo: "REG-1002", studentName: "Fatima Zafar", fatherName: "Zafar Iqbal", className: "Class B - Scholars", phoneNumber: "0302-7654321", status: "Active", email: "fatima.z@ehs.edu", cnic: "35202-7654321-2", address: "House 22, Block C, Lahore", gender: "Female", dob: "2009-11-02", nationality: "Pakistani", religion: "Islam", joiningDate: "2023-09-01", guardianName: "Zafar Iqbal", guardianPhone: "0302-1122334", guardianCnic: "35202-7654321-8", guardianOccupation: "Engineer", photoUrl: "https://randomuser.me/api/portraits/women/68.jpg", classId: "CLS-10045", session: "2025-2026", grade: "9th", section: "B" },
+    { regNo: "REG-1003", studentName: "Hassan Tariq", fatherName: "Tariq Mehmood", className: "Class C - Leaders", phoneNumber: "0345-9871234", status: "Inactive", email: "hassan.t@ehs.edu", cnic: "38403-1122334-3", address: "Street 9, Gulshan-e-Iqbal, Karachi", gender: "Male", dob: "2011-02-20", nationality: "Pakistani", religion: "Islam", joiningDate: "2023-08-15", guardianName: "Tariq Mehmood", guardianPhone: "0345-9988776", guardianCnic: "38403-1122334-9", guardianOccupation: "Teacher", photoUrl: "https://randomuser.me/api/portraits/men/32.jpg", classId: "CLS-10046", session: "2025-2026", grade: "10th", section: "C" },
+    { regNo: "REG-1004", studentName: "Mariam Siddiqui", fatherName: "Rashid Siddiqui", className: "Class D - Achievers", phoneNumber: "0333-5544332", status: "Active", email: "mariam.s@ehs.edu", cnic: "42101-9988776-4", address: "Apt 4, Garden Town, Multan", gender: "Female", dob: "2010-09-12", nationality: "Pakistani", religion: "Islam", joiningDate: "2023-10-10", guardianName: "Rashid Siddiqui", guardianPhone: "0333-5544331", guardianCnic: "42101-9988776-2", guardianOccupation: "Doctor", photoUrl: "https://randomuser.me/api/portraits/women/44.jpg", classId: "CLS-10047", session: "2025-2026", grade: "8th", section: "A" },
+    { regNo: "REG-1005", studentName: "Omar Khalid", fatherName: "Khalid Mehmood", className: "Class E - Innovators", phoneNumber: "0312-7788990", status: "Inactive", email: "omar.k@ehs.edu", cnic: "36502-4455667-5", address: "Village Jaranwala, Faisalabad", gender: "Male", dob: "2012-03-25", nationality: "Pakistani", religion: "Islam", joiningDate: "2024-01-15", guardianName: "Khalid Mehmood", guardianPhone: "0312-7788991", guardianCnic: "36502-4455667-1", guardianOccupation: "Farmer", photoUrl: null, classId: "CLS-10048", session: "2025-2026", grade: "7th", section: "B" }
+  ];
+
+  function renderStudentTable() {
+    const tbody = document.getElementById('studentTableBody');
+    if(!tbody) return;
+    
+    tbody.innerHTML = students.map(s => {
+      const photoHtml = s.photoUrl 
+        ? `<img src="${s.photoUrl}" class="photo-thumb" alt="${s.studentName}">` 
+        : `<div class="photo-placeholder"><i class="fas fa-user-graduate"></i></div>`;
+      
+      return `
+        <tr>
+          <td>${photoHtml}</td>
+          <td><strong>${s.regNo}</strong></td>
+          <td>${s.studentName}</td>
+          <td>${s.fatherName}</td>
+          <td>${s.className}</td>
+          <td>${s.phoneNumber}</td>
+          <td>
+            <select class="status-select ${s.status === 'Active' ? 'active-select' : 'inactive-select'}" 
+                    data-regno="${s.regNo}" onchange="updateStatus('${s.regNo}', this.value)">
+              <option value="Active" ${s.status === 'Active' ? 'selected' : ''}>Active</option>
+              <option value="Inactive" ${s.status === 'Inactive' ? 'selected' : ''}>Inactive</option>
+            </select>
+          </td>
+          <td style="text-align:right">
+            <div class="action-icons">
+              <i class="fas fa-eye view-icon" data-regno="${s.regNo}"></i>
+              <i class="fas fa-edit edit-icon" data-regno="${s.regNo}"></i>
+              <i class="fas fa-trash-alt delete-icon" data-regno="${s.regNo}"></i>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    document.querySelectorAll('.view-icon').forEach(i => i.addEventListener('click', () => openPanel(i.dataset.regno)));
+    document.querySelectorAll('.edit-icon').forEach(i => i.addEventListener('click', () => showToast(`✏️ Edit ${i.dataset.regno}`)));
+    document.querySelectorAll('.delete-icon').forEach(i => i.addEventListener('click', () => { 
+      if(confirm(`Delete ${i.dataset.regno}?`)) { 
+        students = students.filter(s => s.regNo !== i.dataset.regno); 
+        updateCount(); 
+        renderStudentTable(); 
+        showToast(`🗑️ Deleted`); 
+      } 
+    }));
+  }
+
+  function updateCount() { 
+    document.getElementById('studentCountBadge').innerText = students.length; 
+  }
+
+  window.updateStatus = (regNo, newStatus) => { 
+    let s = students.find(s => s.regNo === regNo); 
+    if(s) { 
+      s.status = newStatus; 
+      renderStudentTable(); 
+      showToast(`✅ Status: ${newStatus}`); 
+    } 
+  };
+
+  function openPanel(regNo) {
+    let s = students.find(s => s.regNo === regNo);
+    if(!s) return;
+    let photoHtml = s.photoUrl ? `<img src="${s.photoUrl}">` : `<i class="fas fa-user-circle"></i>`;
+    
+    document.getElementById('dynamicPanelContent').innerHTML = `
+      <div class="photo-frame-section">
+        <div class="photo-frame">${photoHtml}</div>
+        <div class="reg-number-bold"><i class="fas fa-qrcode"></i> ${s.regNo}</div>
+      </div>
+      <!-- Rest of the panel content remains unchanged -->
+      <div class="info-group"><h4><i class="fas fa-user-graduate"></i> Class Information</h4>
+        <div class="info-row"><div class="info-label">Class Name</div><div class="info-value">${s.className}</div></div>
+        <div class="info-row"><div class="info-label">Class ID</div><div class="info-value">${s.classId || 'N/A'}</div></div>
+        <div class="info-row"><div class="info-label">Session</div><div class="info-value">${s.session}</div></div>
+        <div class="info-row"><div class="info-label">Grade</div><div class="info-value">${s.grade}</div></div>
+        <div class="info-row"><div class="info-label">Section</div><div class="info-value">${s.section}</div></div>
+      </div>
+      <div class="info-group"><h4><i class="fas fa-address-card"></i> Personal Information</h4>
+        <div class="info-row"><div class="info-label">Student Name</div><div class="info-value">${s.studentName}</div></div>
+        <div class="info-row"><div class="info-label">Father Name</div><div class="info-value">${s.fatherName}</div></div>
+        <div class="info-row"><div class="info-label">Phone</div><div class="info-value">${s.phoneNumber}</div></div>
+        <div class="info-row"><div class="info-label">CNIC</div><div class="info-value">${s.cnic || '—'}</div></div>
+        <div class="info-row"><div class="info-label">Address</div><div class="info-value">${s.address}</div></div>
+        <div class="info-row"><div class="info-label">Email</div><div class="info-value">${s.email || '—'}</div></div>
+        <div class="info-row"><div class="info-label">Gender</div><div class="info-value">${s.gender}</div></div>
+        <div class="info-row"><div class="info-label">DOB</div><div class="info-value">${new Date(s.dob).toLocaleDateString()}</div></div>
+        <div class="info-row"><div class="info-label">Nationality</div><div class="info-value">${s.nationality}</div></div>
+        <div class="info-row"><div class="info-label">Religion</div><div class="info-value">${s.religion}</div></div>
+      </div>
+      <div class="info-group"><h4><i class="fas fa-user-shield"></i> Guardian Information</h4>
+        <div class="info-row"><div class="info-label">Guardian Name</div><div class="info-value">${s.guardianName}</div></div>
+        <div class="info-row"><div class="info-label">Guardian Phone</div><div class="info-value">${s.guardianPhone}</div></div>
+        <div class="info-row"><div class="info-label">Guardian CNIC</div><div class="info-value">${s.guardianCnic || '—'}</div></div>
+        <div class="info-row"><div class="info-label">Occupation</div><div class="info-value">${s.guardianOccupation}</div></div>
+      </div>
+      <div class="info-group"><h4><i class="fas fa-clock"></i> Enrollment Information</h4>
+        <div class="info-row"><div class="info-label">Joining Date</div><div class="info-value">${new Date(s.joiningDate).toLocaleDateString()}</div></div>
+        <div class="info-row"><div class="info-label">Status</div><div class="info-value"><span class="status-badge ${s.status === 'Active' ? 'status-active' : 'status-inactive'}">${s.status}</span></div></div>
+      </div>
+    `;
+    document.getElementById('studentSlidePanel').classList.add('active');
+  }
+
+  function closePanel() { 
+    document.getElementById('studentSlidePanel').classList.remove('active'); 
+  }
+
+  function showToast(msg) { 
+    let t = document.createElement('div'); 
+    t.className = 'toast-msg'; 
+    t.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`; 
+    document.body.appendChild(t); 
+    setTimeout(() => t.remove(), 2200); 
+  }
+
+  document.getElementById('closeSlideBtn').addEventListener('click', closePanel);
+  document.getElementById('studentSlidePanel').addEventListener('click', (e) => { 
+    if(e.target === document.getElementById('studentSlidePanel')) closePanel(); 
+  });
+  document.addEventListener('keydown', (e) => { 
+    if(e.key === 'Escape' && document.getElementById('studentSlidePanel').classList.contains('active')) closePanel(); 
+  });
+
+  updateCount();
+  renderStudentTable();
+</script>
+</body>
+</html>

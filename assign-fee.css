@@ -1,0 +1,168 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,Roboto,sans-serif}
+body{background:#f8fafc;color:#1e293b;line-height:1.6}
+.main-panel{flex:1;padding:40px 32px;background:#f8fafc;min-height:calc(100vh-70px)}
+.page-header { 
+  background: white; 
+  padding: 24px 20px; 
+  margin-bottom: 24px; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
+  border: 1px solid #e9eef3; 
+  border-radius: 0; 
+  width: 100%; 
+}
+
+.page-header h1 { 
+  font-size: 28px; 
+  font-weight: 700; 
+  background: linear-gradient(135deg, #1e3a8a, #2563eb); 
+  background-clip: text; 
+  -webkit-background-clip: text; 
+  color: transparent; 
+  display: flex; 
+  align-items: center; 
+  gap: 14px; 
+}
+
+.page-header p { 
+  color: #475569; 
+  margin-top: 8px; 
+  font-size: 15px; 
+  border-left: 3px solid #3b82f6; 
+  padding-left: 16px; 
+}
+.card{background:white;border-radius:0;padding:40px;box-shadow:0 4px 25px rgba(0,0,0,.07);border:1px solid #f1f5f9;margin-bottom:28px}
+.card-title{font-size:19px;font-weight:700;color:#1e293b;margin-bottom:28px;display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:2px solid #e5e7eb}
+.card-title i{color:#2563eb;font-size:22px}
+
+.form-grid-5cols{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.form-grid-2cols,.form-grid-2cols-row{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:24px}
+.form-grid-full{display:grid;grid-template-columns:1fr;gap:24px}
+
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-group label{font-size:14.5px;font-weight:600;color:#334155;display:flex;align-items:center;gap:8px}
+.req{color:#ef4444;margin-left:3px}
+
+.form-control{padding:14px 16px;border:1.5px solid #e2e8f0;border-radius:0;font-size:15.2px;color:#1e293b;transition:all .25s ease;background:white;width:100%}
+.form-control:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 4px rgba(59,130,246,.12)}
+.form-control:disabled{background:#f8fafc;color:#64748b;cursor:not-allowed}
+select.form-control{cursor:pointer}
+textarea.form-control{resize:vertical;min-height:100px}
+
+.amount-wrapper{position:relative;display:flex;align-items:center}
+.currency-prefix{position:absolute;left:16px;color:#64748b;font-weight:600;font-size:15px;pointer-events:none}
+.amount-input{padding-left:55px}
+
+/* Month Picker */
+.month-picker-wrapper{position:relative}
+.month-display{display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:white;border:1.5px solid #e2e8f0;border-radius:0;padding:14px 16px;transition:all .25s}
+.month-display:hover{border-color:#3b82f6}
+.month-display span{color:#1e293b;font-size:15.2px}
+.month-display i{color:#94a3b8}
+
+.month-picker-dropdown{position:absolute;top:100%;left:0;right:0;background:white;border:1.5px solid #e2e8f0;border-radius:0;margin-top:8px;box-shadow:0 10px 25px rgba(0,0,0,.1);z-index:100;display:none}
+.month-picker-dropdown.show{display:block}
+
+.year-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e2e8f0;background:#f8fafc;border-radius:0}
+.year-nav button{background:none;border:none;cursor:pointer;color:#2563eb;font-size:18px;padding:8px;border-radius:0;transition:all .2s}
+.year-nav button:hover{background:#e2e8f0}
+.current-year{font-size:18px;font-weight:700;color:#1e293b}
+
+.months-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:20px}
+.month-btn{padding:12px 8px;text-align:center;border:none;background:#f8fafc;border-radius:0;cursor:pointer;font-size:14px;font-weight:500;color:#334155;transition:all .2s}
+.month-btn:hover{background:#dbeafe;color:#1e40af}
+.month-btn.selected{background:#2563eb;color:white}
+
+.picker-actions{display:flex;justify-content:space-between;gap:12px;padding:16px 20px;border-top:1px solid #e2e8f0;background:#f8fafc;border-radius:0}
+.picker-actions button{padding:10px 20px;border:none;border-radius:0;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s}
+.btn-clear{background:#fee2e2;color:#ef4444}
+.btn-clear:hover{background:#fecaca}
+.btn-this-month{background:#dbeafe;color:#2563eb}
+.btn-this-month:hover{background:#bfdbfe}
+
+.btn-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px;padding-top:28px;border-top:1px solid #e5e7eb}
+.btn{padding:13px 28px;border:none;border-radius:0;font-size:15.5px;font-weight:600;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:9px;text-decoration:none}
+.btn-primary{background:#2563eb;color:white}
+.btn-primary:hover{background:#1d4ed8;transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,99,235,.3)}
+.btn-secondary{background:#f8fafc;color:#334155;border:1.5px solid #e2e8f0}
+.btn-secondary:hover{background:#f1f5f9;border-color:#cbd5e1}
+
+/* Student Table Styles - Sharp corners */
+.student-table-wrapper{overflow-x:auto;margin-top:24px}
+table.student-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+th, td{
+    padding:16px 12px;
+    text-align:left;
+    border-bottom:1px solid #e2e8f0;
+    font-size:14.5px;
+}
+th{
+    background:#f8fafc;
+    font-weight:700;
+    color:#334155;
+    border-bottom:2px solid #cbd5e1;
+}
+tr:hover{background:#f8fafc}
+
+/* Column widths */
+th:nth-child(1), td:nth-child(1) { width: 70px; text-align: center; } /* Photo */
+th:nth-child(2), td:nth-child(2) { width: 130px; } /* Reg No */
+th:nth-child(3), td:nth-child(3) { width: 220px; } /* Name */
+th:nth-child(4), td:nth-child(4) { width: 200px; } /* Father Name */
+th:nth-child(5), td:nth-child(5) { width: 160px; } /* Fee Amount */
+th:nth-child(6), td:nth-child(6) { width: 80px; text-align: center; } /* Select */
+
+.photo-frame{
+    width: 52px;
+    height: 62px;
+    border: 2px solid #2563eb;
+    overflow: hidden;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+.photo-frame img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.photo-placeholder{
+    width: 52px;
+    height: 62px;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 26px;
+    border: 2px solid #2563eb;
+}
+
+.fee-input{
+    width: 100%;
+    padding: 8px 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 0;
+    font-size: 14.5px;
+}
+
+.select-all{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+@media (max-width:1200px){.form-grid-5cols{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:768px){
+  .main-panel{padding:24px 20px}
+  .page-header,.card{padding:28px 24px}
+  .form-grid-5cols,.form-grid-2cols,.form-grid-2cols-row{grid-template-columns:1fr}
+  .months-grid{grid-template-columns:repeat(2,1fr)}
+}
