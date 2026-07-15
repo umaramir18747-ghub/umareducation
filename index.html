@@ -28,17 +28,53 @@
 
       <!-- Welcome Banner + Profile Photo, in one row -->
       <div class="welcome-photo-row">
-        <!-- Welcome Banner (message only) -->
+        <!-- Welcome Banner (greeting + quick links) -->
         <section class="welcome-banner">
-          <h1 class="welcome-title">Welcome to Admission & Fee Management Dashboard</h1>
-          <p class="welcome-text">Dear Muhammad Umar, streamline your institution's admission workflows and financial operations from a single command center.</p>
+          <h1 class="welcome-title">Welcome Back, <span>Muhammad Umar</span></h1>
+          <div class="welcome-role">Additional Registrar</div>
+          <p class="welcome-text">Manage admissions, students, fees and reports from one place.</p>
+
+          <div class="quick-links-grid">
+            <a href="enroll-student.html" class="quick-link-card">
+              <div class="quick-link-icon icon-ql-admissions"><i class="fas fa-file-signature"></i></div>
+              <div class="quick-link-info">
+                <div class="quick-link-title">Students</div>
+                <div class="quick-link-subtitle">Manage Students</div>
+              </div>
+            </a>
+            <a href="make-class.html" class="quick-link-card">
+              <div class="quick-link-icon icon-ql-students"><i class="fas fa-user-graduate"></i></div>
+              <div class="quick-link-info">
+                <div class="quick-link-title">Classes</div>
+                <div class="quick-link-subtitle">Manage Classes</div>
+              </div>
+            </a>
+            <a href="assign-fee.html" class="quick-link-card">
+              <div class="quick-link-icon icon-ql-fees"><i class="fas fa-money-check-alt"></i></div>
+              <div class="quick-link-info">
+                <div class="quick-link-title">Fees</div>
+                <div class="quick-link-subtitle">Manage Fees</div>
+              </div>
+            </a>
+            <a href="#" class="quick-link-card">
+              <div class="quick-link-icon icon-ql-reports"><i class="fas fa-chart-bar"></i></div>
+              <div class="quick-link-info">
+                <div class="quick-link-title">Reports</div>
+                <div class="quick-link-subtitle">View Reports</div>
+              </div>
+            </a>
+          </div>
         </section>
+
+        <!-- Divider -->
+        <div class="welcome-divider" aria-hidden="true"></div>
 
         <!-- Profile Picture Frame -->
         <section class="profile-card">
           <div class="passport-frame"><img src="profile.jpg" alt="Muhammad Umar"></div>
           <div class="profile-name">Muhammad Umar</div>
           <div class="profile-role">Additional Registrar</div>
+          <div class="profile-status"><span class="status-dot"></span>Online</div>
         </section>
       </div>
 
