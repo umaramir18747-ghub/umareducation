@@ -170,11 +170,89 @@
   color: #2563eb;
 }
 
+.welcome-role {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 14px;
+}
+
 .welcome-text {
   font-size: 16px;
   color: #475569;
   line-height: 1.8;
   max-width: 90%;
+  margin-bottom: 26px;
+}
+
+/* ---------- Quick links grid ---------- */
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.quick-link-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #e8edf4;
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.quick-link-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
+  border-color: #d0d9e6;
+}
+
+.quick-link-icon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.icon-ql-admissions { background: #eff6ff; color: #2563eb; }
+.icon-ql-students   { background: #f0fdf4; color: #16a34a; }
+.icon-ql-fees       { background: #f3e8ff; color: #7c3aed; }
+.icon-ql-reports    { background: #fff7ed; color: #ea580c; }
+
+.quick-link-info {
+  min-width: 0;
+}
+
+.quick-link-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.quick-link-subtitle {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Divider between banner and profile card ---------- */
+.welcome-divider {
+  width: 1px;
+  align-self: stretch;
+  background: #e8edf4;
+  flex-shrink: 0;
 }
 
 /* Profile card - takes 1/5 of the row */
@@ -231,6 +309,27 @@
   color: #64748b; 
   margin-top: 4px;
   font-weight: 500;
+}
+
+.profile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 5px 12px;
+  background: #f0fdf4;
+  color: #16a34a;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+  flex-shrink: 0;
 }
 
 /* ---------- 4) Help section ---------- */
@@ -303,6 +402,16 @@
   .welcome-banner {
     padding: 32px 36px;
   }
+
+  .quick-links-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .quick-link-title,
+  .quick-link-subtitle {
+    white-space: normal;
+  }
 }
 
 /* Tablets */
@@ -318,6 +427,16 @@
   .welcome-text {
     font-size: 15px;
     max-width: 100%;
+  }
+
+  .quick-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .quick-link-title,
+  .quick-link-subtitle {
+    white-space: nowrap;
   }
   
   .help-section { 
@@ -359,6 +478,16 @@
   .welcome-text { 
     font-size: 14.5px; 
     max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .quick-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .welcome-divider {
+    display: none;
   }
 
   .profile-card { 
@@ -383,6 +512,10 @@
   
   .profile-role {
     font-size: 13.5px;
+  }
+
+  .profile-status {
+    margin-top: 0;
   }
 
   .dashboard-section { 
@@ -446,6 +579,31 @@
   
   .welcome-text { 
     font-size: 13.5px; 
+  }
+
+  .quick-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .quick-link-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .quick-link-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    font-size: 15px;
+  }
+
+  .quick-link-title {
+    font-size: 13.5px;
+  }
+
+  .quick-link-subtitle {
+    font-size: 11px;
   }
 
   .profile-card {
@@ -526,6 +684,16 @@
   
   .welcome-title {
     font-size: 18px;
+  }
+
+  .quick-links-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .quick-link-title,
+  .quick-link-subtitle {
+    white-space: normal;
   }
 }
 
